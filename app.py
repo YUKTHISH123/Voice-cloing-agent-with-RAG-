@@ -20,7 +20,7 @@ load_dotenv()
 ASSEMBLYAI_KEY = os.getenv("ASSEMBLYAI_API_KEY")
 GROQ_KEY = os.getenv("GROQ_API_KEY")
 
-# ⚠️ VERY IMPORTANT: Make sure this is your ACTIVE Colab URL!
+#  VERY IMPORTANT: Make sure this is your ACTIVE Colab URL!
 COLAB_TTS_URL = "https://adrian-due-extra-equal.trycloudflare.com"
 
 app = FastAPI()
@@ -28,19 +28,19 @@ app = FastAPI()
 # --- AUTO-UPLOAD VOICE ON STARTUP ---
 @app.on_event("startup")
 def upload_reference_voice():
-    print("🔄 Checking Colab connection and voice reference...")
+    print(" Checking Colab connection and voice reference...")
     if os.path.exists("voice.wav"):
         try:
             with open("voice.wav", "rb") as f:
                 res = requests.post(f"{COLAB_TTS_URL}/upload", files={"file": f})
             if res.status_code == 200:
-                print("✅ Reference 'voice.wav' successfully uploaded to Colab GPU!")
+                print(" Reference 'voice.wav' successfully uploaded to Colab GPU!")
             else:
-                print(f"⚠️ Colab rejected the upload. Is your COLAB_TTS_URL correct? ({res.text})")
+                print(f" Colab rejected the upload. Is your COLAB_TTS_URL correct? ({res.text})")
         except Exception as e:
-            print(f"❌ Failed to connect to Colab. Make sure it is running! Error: {e}")
+            print(f" Failed to connect to Colab. Make sure it is running! Error: {e}")
     else:
-        print("⚠️ 'voice.wav' not found on startup. You will need to add a person via the UI.")
+        print(" 'voice.wav' not found on startup. You will need to add a person via the UI.")
 
 # --- 2. RAG MEMORY SYSTEM (CRUD) ---
 FILE_PATH = "apj.txt"
@@ -97,7 +97,7 @@ async def add_persona(
         with open(FILE_PATH, "wb") as f:
             f.write(bio_content)
         reload_db()
-        print(f"✅ RAG Database re-indexed for {name}")
+        print(f" RAG Database re-indexed for {name}")
 
         # 2. Save the voice locally
         voice_content = await voice_file.read()
