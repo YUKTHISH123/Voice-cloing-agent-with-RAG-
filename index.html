@@ -1,6 +1,4 @@
-
-
-    <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -157,11 +155,11 @@ button:hover { background: #3a3a3a; }
                 div.className = "thread";
                 div.textContent = name;
                 document.getElementById("threadList").appendChild(div);
-                document.getElementById('inputText').value = `✅ Success! You are now speaking to ${name}.\nA dedicated folder has been created for their files.`;
+                document.getElementById('inputText').value = ` Success! You are now speaking to ${name}.\nA dedicated folder has been created for their files.`;
                 document.getElementById('outputTextDisplay').value = "New persona loaded! Start a conversation.\n-----------------------------------\n";
             } else {
                 alert("Error: " + data.detail);
-                document.getElementById('inputText').value = "❌ Failed to load persona.";
+                document.getElementById('inputText').value = " Failed to load persona.";
             }
         } catch(e) { alert("Connection error while uploading files."); }
     }
@@ -190,8 +188,8 @@ button:hover { background: #3a3a3a; }
                 try {
                     const res = await fetch("/api/transcribe", { method: "POST", body: formData });
                     const data = await res.json();
-                    inputText.value = res.ok ? data.text : "❌ " + (data.detail || "Server Error");
-                } catch (e) { inputText.value = "❌ Error connecting to server."; }
+                    inputText.value = res.ok ? data.text : " " + (data.detail || "Server Error");
+                } catch (e) { inputText.value = " Error connecting to server."; }
             };
             media.start();
             rec = true;
@@ -221,9 +219,9 @@ button:hover { background: #3a3a3a; }
     // --- MAGIC BUTTON (LLM -> TTS) ---
     async function confirmInput() {
         const text = inputText.value;
-        if (!text || text.startsWith("❌") || text.includes("Transcribing")) return alert("Please record or type a valid question.");
+        if (!text || text.startsWith(" ") || text.includes("Transcribing")) return alert("Please record or type a valid question.");
 
-        outputText.value += `\n🧑 You: ${text}\n🤖 AI is thinking...\n`;
+        outputText.value += `\n You: ${text}\n Thinking...\n`;
         outputText.scrollTop = outputText.scrollHeight;
         
         const chatForm = new FormData(); chatForm.append("text", text);
@@ -233,12 +231,12 @@ button:hover { background: #3a3a3a; }
             const chatData = await chatRes.json();
             
             if (!chatRes.ok) { 
-                outputText.value += `❌ Error: ${chatData.detail || "Server failed"}\n`; 
+                outputText.value += ` Error: ${chatData.detail || "Server failed"}\n`; 
                 return; 
             }
             
-            outputText.value = outputText.value.replace("🤖 AI is thinking...\n", "");
-            outputText.value += `🤖 Agent [Emotion: ${chatData.emotion}]: ${chatData.answer}\n🎙️ Generating voice...\n`;
+            outputText.value = outputText.value.replace("Thinking...\n", "");
+            outputText.value += `Person [Emotion: ${chatData.emotion}]: ${chatData.answer}\n Generating voice...\n`;
             outputText.scrollTop = outputText.scrollHeight;
             
             const ttsForm = new FormData(); ttsForm.append("text", chatData.answer);
@@ -251,14 +249,14 @@ button:hover { background: #3a3a3a; }
                 playOutput.textContent = "||";
                 waveOutput.classList.add("playing");
                 
-                outputText.value = outputText.value.replace("🎙️ Generating voice...\n", "");
+                outputText.value = outputText.value.replace("Generating voice...\n", "");
                 outputText.value += `-----------------------------------\n`;
                 inputText.value = ""; 
             } else {
                 const errorData = await ttsRes.json();
-                outputText.value += `❌ XTTS Error: ${errorData.detail || "Server failed"}\n`;
+                outputText.value += `XTTS Error: ${errorData.detail || "Server failed"}\n`;
             }
-        } catch (e) { outputText.value += "❌ Error communicating with server.\n"; }
+        } catch (e) { outputText.value += " Error communicating with server.\n"; }
         
         outputText.scrollTop = outputText.scrollHeight;
     }
