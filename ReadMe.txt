@@ -1,31 +1,34 @@
+| THIS PROJECT IS A PROTOTYPE LEVEL PROJECT FULLY WORKING MODLES WITH LOCAL SYSTEM RESOURCES AND FREE TIRE OPEN SOURCES |
+__________________________________________________________________________________________________________________________________________
+
 # Multimodal Emotionally Aware Voice Cloning Agent
 
 An intelligent, low-latency speech-to-speech companion that combines emotional intelligence with adaptive biographical memory to bridge the empathy gap in conversational systems. This application uses a dual-stream architecture to capture human sentiment, dynamically reference a local vector database, and reply in real time using high-fidelity zero-shot voice cloning.
 
 ---
 
-##  Project Video Demonstration
+Project Video Demonstration:
+
 A comprehensive 6-minute operational walk-through showcasing real-time audio capturing, live emotion classification context tracking, dynamic memory CRUD manipulation, and high-fidelity target voice cloning execution.
 
-**[Watch the Project Demonstration Video (demo.mp4)](./demo.mp4)**
+[Watch the Project Demonstration Video (demo.mp4)](./demo.mp4)
+__________________________________________________________________________________________________________________________________________
 
----
+Project Tech Stack
+Frontend:Vanilla HTML5, CSS3, WebRTC MediaRecorder API
+Backend Framework: FastAPI (Python 3.10+)
+AI Ear (ASR): AssemblyAI (`universal-3-pro`)
+AI Brain (NLP & RAG):** Groq API (`llama-3.1-8b-instant`), FAISS Vector DB
+Emotion Engine:** HuggingFace Pipeline (`j-hartmann/emotion-english-distilroberta-base`)
+AI Mouth (Voice Synthesis): Coqui XTTS v2 via remote GPU Tunneling
 
-## 🛠 Project Tech Stack
-* **Frontend:** Vanilla HTML5, CSS3, WebRTC MediaRecorder API
-* **Backend Framework:** FastAPI (Python 3.10+)
-* **AI Ear (ASR):** AssemblyAI (`universal-3-pro`)
-* **AI Brain (NLP & RAG):** Groq API (`llama-3.1-8b-instant`), FAISS Vector DB
-* **Emotion Engine:** HuggingFace Pipeline (`j-hartmann/emotion-english-distilroberta-base`)
-* **AI Mouth (Voice Synthesis):** Coqui XTTS v2 via remote GPU Tunneling
+__________________________________________________________________________________________________________________________________________
 
----
 
-##  Repository Folder Structure
+Repository Folder Structure
 
 Organize your workspace directory exactly as follows before staging deployment files:
 
-```text
 Emotionally-Aware-Voice-Agent/
 │
 ├── notebooks/
@@ -39,6 +42,8 @@ Emotionally-Aware-Voice-Agent/
 ├── apj.txt                     # Active text biographical database
 ├── voice.wav                   # Target cloning reference audio file
 └── demo.mp4                    # 6-minute project demonstration video
+__________________________________________________________________________________________________________________________________________
+
 Environment Build & Local Installation
 Follow these steps sequentially to configure your local execution environment:
 
@@ -57,6 +62,8 @@ python -m venv tts_env
 (Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned) ; (& ".\tts_env\Scripts\Activate.ps1")
 # Linux/macOS:
 source tts_env/bin/activate
+
+
 2. Install Backend Core Dependencies
 Run the library installation command inside your active virtual environment:
 
@@ -76,7 +83,7 @@ Groq API Key: Register at the Groq Developers Console to access ultra-low-latenc
 HF Token: Create a HuggingFace account, navigate to Settings -> Tokens, and generate a token with Read access to pull down the distilroberta classifier.
 
 AssemblyAI API Key: Sign up at the AssemblyAI dashboard to run the universal-3-pro engine.
-
+__________________________________________________________________________________________________________________________________________
 Google Colab GPU Setup & Cloudflare Tunnel Linkage
 Because running the state-of-the-art Coqui XTTS v2 model locally requires high-end VRAM, the execution loop shifts heavy computing workloads onto a free cloud-hosted remote GPU instance.
 
@@ -104,6 +111,7 @@ Storage Mechanism: Structural text datasets are read directly from apj.txt.
 RAG Pipeline Processing: RecursiveCharacterTextSplitter breaks text into chunks of 400 characters. These are converted into high-dimensional vectors by nomic-embed-text-v1.5 and stored in a local FAISS vector store.
 
 Dynamic Modifiers (CRUD): The dashboard interface allows for instant database mutation. Calling the /api/memory/insert or /api/memory/delete endpoints alters the tracking file and instantly triggers reload_db() to refresh the active vector space configurations without taking the server offline.
+__________________________________________________________________________________________________________________________________________
 
 Operational Output & Interaction Guidance
 Run the system pipeline using your terminal window:
